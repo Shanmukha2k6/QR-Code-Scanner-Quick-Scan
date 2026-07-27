@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name - ASO Optimized -->
+    <string name="app_name">QR Code Scanner &amp; Barcode Scanner – Fast QR Reader</string>
+    <string name="app_name_short">QR Scanner</string>
+
+    <!-- Navigation -->
+    <string name="nav_scan">Scan</string>
+    <string name="nav_create">Create</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Scanner -->
+    <string name="scan_hint">Point camera at QR code or barcode</string>
+    <string name="flash_on">Flash On</string>
+    <string name="flash_off">Flash Off</string>
+    <string name="scan_from_gallery">Scan from Gallery</string>
+    <string name="copy">Copy</string>
+    <string name="share">Share</string>
+    <string name="open">Open</string>
+    <string name="scan_again">Scan Again</string>
+
+    <!-- Creator -->
+    <string name="create_qr">Create QR Code</string>
+    <string name="generate">Generate</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved to Gallery</string>
+
+    <!-- History -->
+    <string name="history">History</string>
+    <string name="scanned">Scanned</string>
+    <string name="generated">Generated</string>
+    <string name="all">All</string>
+    <string name="favorites">Favorites</string>
+    <string name="no_history">No scan history yet.\nStart scanning QR codes!</string>
+    <string name="no_generated">No generated QR codes yet.\nCreate your first one!</string>
+    <string name="delete">Delete</string>
+    <string name="clear_all">Clear All</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="vibrate_on_scan">Vibrate on scan</string>
+    <string name="beep_on_scan">Beep on scan</string>
+    <string name="auto_open_url">Auto-open URLs</string>
+    <string name="copy_on_scan">Copy on scan</string>
+    <string name="rate_app">Rate App</string>
+    <string name="share_app">Share App</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="remove_ads">Remove Ads</string>
+    <string name="upgrade_pro">Upgrade to Pro</string>
+    <string name="version">Version</string>
+
+    <!-- Permissions -->
+    <string name="camera_permission_title">Camera Permission Required</string>
+    <string name="camera_permission_message">This app needs camera access to scan QR codes and barcodes.</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="open_settings">Open Settings</string>
+
+    <!-- Play Store ASO - Short Description (max 80 chars) -->
+    <string name="short_description">Fast QR Code Scanner and Barcode Reader. Scan QR codes, create QR codes, and generate barcodes instantly.</string>
+</resources>
