@@ -5,8 +5,6 @@ import android.content.Context
 import android.util.Log
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.appopen.AppOpenAd
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,13 +15,11 @@ class AdManager @Inject constructor(
 ) {
     companion object {
         // Production AdMob Ad Unit IDs
-        const val INTERSTITIAL_ID = "ca-app-pub-3940256099942544/1033173712"
         const val BANNER_HISTORY_ID = "ca-app-pub-8301491457549237/6503559089"
         const val BANNER_ID = BANNER_HISTORY_ID
         const val APP_OPEN_ID = "ca-app-pub-8301491457549237/6446764472"
 
         private const val TAG = "AdManager"
-        private const val SCANS_BETWEEN_ADS = 3
         private const val MIN_APP_OPEN_INTERVAL_MS = 15 * 60 * 1000L // 15 minutes interval for optimal revenue & compliance
         private const val PREFS_NAME = "admob_prefs"
         private const val KEY_LAST_APP_OPEN_TIME = "last_app_open_ad_time"
@@ -38,20 +34,17 @@ class AdManager @Inject constructor(
         return (currentTime - lastTime) >= MIN_APP_OPEN_INTERVAL_MS
     }
 
-    private var interstitialAd: InterstitialAd? = null
     private var appOpenAd: AppOpenAd? = null
     private var loadTime: Long = 0
     private var isShowingAd = false
     private var isLoadingAppOpenAd = false
     private var showAppOpenAdWhenLoaded = false
     private var pendingActivity: Activity? = null
-    private var scansSinceLastAd = 0
     private var isProUser = false
 
     fun initialize() {
         MobileAds.initialize(context) { status ->
             Log.d(TAG, "AdMob initialized: $status")
-            loadInterstitialAd()
             loadAppOpenAd()
         }
     }
@@ -65,26 +58,6 @@ class AdManager @Inject constructor(
         val dateDifference: Long = System.currentTimeMillis() - loadTime
         val numMillisPerFourHours: Long = 3600000 * 4
         return appOpenAd != null && dateDifference < numMillisPerFourHours
-    }
-
-    private fun loadInterstitialAd() {
-        if (isProUser) return
-        val adRequest = AdRequest.Builder().build()
-        InterstitialAd.load(
-            context,
-            INTERSTITIAL_ID,
-            adRequest,
-            object : InterstitialAdLoadCallback() {
-                override fun onAdLoaded(ad: InterstitialAd) {
-                    interstitialAd = ad
-                    Log.d(TAG, "Interstitial loaded successfully")
-                }
-                override fun onAdFailedToLoad(error: LoadAdError) {
-                    interstitialAd = null
-                    Log.e(TAG, "Interstitial failed to load: ${error.message}")
-                }
-            }
-        )
     }
 
     fun loadAppOpenAd() {
@@ -121,32 +94,6 @@ class AdManager @Inject constructor(
                 }
             }
         )
-    }
-
-    fun onScanCompleted(activity: Activity) {
-        if (isProUser) return
-        scansSinceLastAd++
-        if (scansSinceLastAd >= SCANS_BETWEEN_ADS) {
-            showInterstitial(activity)
-            scansSinceLastAd = 0
-        }
-    }
-
-    fun showInterstitial(activity: Activity) {
-        if (isProUser) return
-        interstitialAd?.let { ad ->
-            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
-                override fun onAdDismissedFullScreenContent() {
-                    interstitialAd = null
-                    loadInterstitialAd()
-                }
-                override fun onAdFailedToShowFullScreenContent(error: AdError) {
-                    interstitialAd = null
-                    loadInterstitialAd()
-                }
-            }
-            ad.show(activity)
-        }
     }
 
     fun showAppOpenAd(activity: Activity) {
@@ -193,3 +140,4 @@ class AdManager @Inject constructor(
         appOpenAd?.show(activity)
     }
 }
+
